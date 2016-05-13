@@ -1,0 +1,52 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+DOCUMENTATION = '''
+---
+module: docker_machine
+short_description: Create a openstack docker host machine using docker-machine
+'''
+
+from ansible.module_utils.docker_machine import *
+
+
+def main():
+    module = AnsibleModule(
+        argument_spec=docker_machine_argument_spec(
+            dict(
+                auth_url=dict(type='str'),
+                flavor_name=dict(type='str'),
+                flavor_id=dict(type='str'),
+                image_name=dict(type='str'),
+                image_id=dict(type='str'),
+                insecure=dict(type='str'),
+                domain_name=dict(type='str'),
+                domain_id=dict(type='str'),
+                username=dict(type='str'),
+                password=dict(type='str'),
+                tenant_name=dict(type='str'),
+                tenant_id=dict(type='str'),
+                region=dict(type='str'),
+                availability_zone=dict(type='str'),
+                endpoint_type=dict(type='str'),
+                net_name=dict(type='str'),
+                net_id=dict(type='str'),
+                sec_groups=dict(type='str'),
+                floatingip_pool=dict(type='str'),
+                ip_version=dict(type='str'),
+                ssh_user=dict(type='str'),
+                ssh_port=dict(type='str'),
+                active_timeout=dict(type='str')
+            )
+        ),
+        supports_check_mode=False
+    )
+
+    result = DockerMachineModule(module, 'openstack').execute()
+    module.exit_json(**result)
+
+
+from ansible.module_utils.basic import *
+
+if __name__ == '__main__':
+    main()

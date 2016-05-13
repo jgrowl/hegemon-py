@@ -1,0 +1,7 @@
+- include: util/create_user_and_group.yml
+- include: cloud/docker/create_docker_machines.yml
+- include: util/ansible_prereqs.yml
+- include: util/copy_host_files.yml
+
+#- include: hegemon/networking/tinc.yml
+#- include: hegemon/cloud/docker/persistence/flocker.yml

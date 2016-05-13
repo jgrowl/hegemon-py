@@ -1,0 +1,4 @@
+The module_utils path is not configurable in ansible *yet*. We will have to do some hard linking for now. This will
+hopefully be fixed in the future
+
+See: https://groups.google.com/forum/#!topic/ansible-project/2NawGZlNtPU

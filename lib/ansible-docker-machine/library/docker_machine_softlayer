@@ -1,0 +1,44 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+DOCUMENTATION = '''
+---
+module: docker_machine
+short_description: Create a softlayer docker host machine using docker-machine
+'''
+
+from ansible.module_utils.docker_machine import *
+
+
+def main():
+    module = AnsibleModule(
+        argument_spec=docker_machine_argument_spec(
+            dict(
+                user=dict(type='str', required=True),
+                api_key=dict(type='str', required=True),
+                domain=dict(type='str', required=True),
+                memory=dict(type='str'),
+                disk_size=dict(type='str'),
+                region=dict(type='str'),
+                cpu=dict(type='str'),
+                hostname=dict(type='str'),
+                api_endpoint=dict(type='str'),
+                hourly_billing=dict(type='str'),
+                local_disk=dict(type='str'),
+                private_net_only=dict(type='str'),
+                image=dict(type='str'),
+                public_vlan_id=dict(type='str'),
+                private_vlan_id=dict(type='str')
+            )
+        ),
+        supports_check_mode=False
+    )
+
+    result = DockerMachineModule(module, 'softlayer').execute()
+    module.exit_json(**result)
+
+
+from ansible.module_utils.basic import *
+
+if __name__ == '__main__':
+    main()

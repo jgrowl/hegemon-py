@@ -1,0 +1,18 @@
+- name: Copy over host specific files
+  hosts: all:!setup_hosts
+  gather_facts: False
+  vars:
+    inventory_host_files: "{{ HEGEMON_HOST_FILES }}/{{ inventory_hostname }}"
+  tasks:
+  # TODO: We need to make sure file permissions are restricted
+
+  - name: get file stat to be able to perform a check in the following task
+#    local_action: stat path=/docker/{{ ENVIRONMENT }}/host_files/{{ inventory_hostname }}
+    local_action: stat path="{{ inventory_host_files }}"
+    register: file
+    ignore_errors: True
+
+  - name: copy host specific files if any exist
+    copy: src="{{ inventory_host_files }}" dest=/tmp
+#    copy: src=/docker/{{ ENVIRONMENT }}/host_files/{{ inventory_hostname }} dest=/tmp
+    when: file.stat.exists

@@ -1,0 +1,37 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+DOCUMENTATION = '''
+---
+module: docker_machine
+short_description: Create a exoscale docker host machine using docker-machine
+'''
+
+from ansible.module_utils.docker_machine import *
+
+
+def main():
+    module = AnsibleModule(
+        argument_spec=docker_machine_argument_spec(
+            dict(
+                api_key=dict(type='str', required=True),
+                api_secret_key=dict(type='str', required=True),
+                url=dict(type='str'),
+                instance_profile=dict(type='str'),
+                disk_size=dict(type='str'),
+                image=dict(type='str'),
+                security_group=dict(type='str'),
+                availability_zone=dict(type='str')
+            )
+        ),
+        supports_check_mode=False
+    )
+
+    result = DockerMachineModule(module, 'exoscale').execute()
+    module.exit_json(**result)
+
+
+from ansible.module_utils.basic import *
+
+if __name__ == '__main__':
+    main()

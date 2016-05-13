@@ -1,0 +1,34 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+DOCUMENTATION = '''
+---
+module: docker_machine
+short_description: Create a hyperv docker host machine using docker-machine
+'''
+
+from ansible.module_utils.docker_machine import *
+
+
+def main():
+    module = AnsibleModule(
+        argument_spec=docker_machine_argument_spec(
+            dict(
+                boot2docker_url=dict(type='str'),
+                boot2docker_location=dict(type='str'),
+                virtual_switch=dict(type='str'),
+                disk_size=dict(type='str'),
+                memory=dict(type='str')
+            )
+        ),
+        supports_check_mode=False
+    )
+
+    result = DockerMachineModule(module, 'hyperv').execute()
+    module.exit_json(**result)
+
+
+from ansible.module_utils.basic import *
+
+if __name__ == '__main__':
+    main()

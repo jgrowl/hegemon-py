@@ -1,0 +1,46 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+DOCUMENTATION = '''
+---
+module: docker_machine
+short_description: Create a amazonec2 docker host machine using docker-machine
+'''
+
+from ansible.module_utils.docker_machine import *
+
+
+def main():
+    module = AnsibleModule(
+        argument_spec=docker_machine_argument_spec(
+            dict(
+                access_key=dict(type='str', required=True),
+                secret_key=dict(type='str', required=True),
+                vpc_id=dict(type='str', required=True),
+                session_token=dict(type='str'),
+                ami=dict(type='str'),
+                region=dict(type='str'),
+                zone=dict(type='str'),
+                subnet_id=dict(type='str'),
+                security_group=dict(type='str'),
+                instance_type=dict(type='str'),
+                root_size=dict(type='str'),
+                iam_instance_profile=dict(type='str'),
+                ssh_user=dict(type='str'),
+                request_spot_instance=dict(type='bool'),
+                spot_price=dict(type='str'),
+                private_address_only=dict(type='bool'),
+                monitoring=dict(type='bool')
+            )
+        ),
+        supports_check_mode=False
+    )
+
+    result = DockerMachineModule(module, 'amazonec2').execute()
+    module.exit_json(**result)
+
+
+from ansible.module_utils.basic import *
+
+if __name__ == '__main__':
+    main()

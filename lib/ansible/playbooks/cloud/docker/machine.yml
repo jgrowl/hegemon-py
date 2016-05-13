@@ -1,0 +1,16 @@
+- name: Ensure digitalocean machines exist
+  docker_machine_digitalocean: >
+    access_token={{ machine.access_token }}
+    name={{ machine.name }}
+    region={{ machine.region }}
+    state={{ machine.state }}
+  when: machine.type == 'digitalocean'
+
+
+#- name: Ensure local machines exist
+#  docker_machine_local: >
+#    name={{ item.name }}
+#  when: item.type == 'local'
+
+
+- include: known_hosts.yml
