@@ -9,11 +9,10 @@
     known_host_type: "{{ known_host_entry.stdout_lines[0].split()[1] }}"
     known_host_key: "{{ known_host_entry.stdout_lines[0].split()[2] }}"
 
+- file: path="{{ HEGEMON_RUN_HOME }}/.ssh" state=directory
+- file: path="{{ HEGEMON_RUN_HOME }}/.ssh/known_hosts" state=touch
 
-- file: path=~/.ssh state=directory
-- file: path=~/.ssh/known_hosts state=touch
-
-- lineinfile: dest=~/.ssh/known_hosts
+- lineinfile: dest="{{ HEGEMON_RUN_HOME }}/.ssh/known_hosts"
               state="{{ 'absent' if machine.state == 'absent' else 'present' }}"
               regexp="^{{ known_host_name }}"
               line="{{ known_host_entry.stdout_lines[0] }}"

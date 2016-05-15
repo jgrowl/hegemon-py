@@ -6,4 +6,4 @@
     group: name="{{ HEGEMON_GROUP }}" gid="{{ HEGEMON_GID }}" state=present
 
   - name: Ensure hegemon user is created
-    user: name="{{ HEGEMON_USER }}" uid="{{ HEGEMON_UID }}" group="{{ HEGEMON_GROUP }}" state=present
+    user: name="{{ HEGEMON_USER }}" uid="{{ HEGEMON_UID }}" group="{{ HEGEMON_GROUP }}" state=present home="{{ HEGEMON_RUN_HOME }}"

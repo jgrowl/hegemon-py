@@ -6,18 +6,7 @@
     with_subelements:
     - "{{ server_groups }}"
     - servers
-    become: yes
-    become_user: "{{ HEGEMON_USER }}"
-    become_method: sudo
-    environment:
-     HOME: "{{ HEGEMON_RUN_HOME }}"
-     PYTHONPATH: "{{ HEGEMON_PYTHONPATH }}"
 
-# TODO: I might need to support the docker-machine files variable
-
-
-#  # Setting permissions after is kinda hacky. The main goal is just to ensure that the files won't be owned
-#  # by root on the controlling machine. It would be better if we could run docker-machine commands as the controlling
-#  # user but I can't get it to work the way I want
-#  post_tasks:
-#  - include: set_permissions.yml
+# TODO: Hegemon might fail the first time you run it because the newly created box may not be up.
+#       Add a handler in to put to pause for seconds so the box can boot up. More ideally, we could maybe ping the
+#       server until it actually comes up.

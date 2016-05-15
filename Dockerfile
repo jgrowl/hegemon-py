@@ -11,9 +11,10 @@ RUN pip install docker-py
 
 # This is some temporary ugliness until --devices gets added to docker command in 2.1
 RUN cd /opt/ansible/ansible && git checkout devel && git pull && git checkout stable-2.1
-RUN cd /opt/ansible/ansible/lib/ansible/modules/core && git checkout stable-2.1
+RUN cd /opt/ansible/ansible/lib/ansible/modules/core && git checkout devel && git pull && git checkout stable-2.1
 #RUN cd /opt/ansible/ansible/lib/ansible/modules/extra && git checkout stable-2.1
 
+## Fix
 #RUN cd /opt/ansible/ansible/lib/ansible/modules/core && wget https://github.com/kaczynskid/ansible-modules-core/commit/46970d6d7add50780e8cedb5067ae5d29a763141.patch -O docker-fix.patch
 #RUN cd /opt/ansible/ansible/lib/ansible/modules/core && git apply docker-fix.patch
 
@@ -42,4 +43,10 @@ RUN rm /etc/ansible/hosts
 # see lib/ansible/module_utils/README
 ADD ./lib/ansible-docker-machine/module_utils/docker_machine.py /opt/ansible/ansible/lib/ansible/module_utils/docker_machine.py
 
-ENTRYPOINT ["hegemon"]
+#ENTRYPOINT ["hegemon"]
+
+RUN groupadd -r hegemon && useradd -r -m -g hegemon hegemon
+RUN usermod -aG docker hegemon
+
+#USER hegemon
+ENTRYPOINT ["/opt/hegemon/entrypoint.sh"]

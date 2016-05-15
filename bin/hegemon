@@ -3,59 +3,54 @@
 import os
 import sys
 
+hegemon_lib_home = os.getenv('HEGEMON_LIB_HOME', None)
+sys.path.append('{}/lib/python'.format(hegemon_lib_home))
+
 try:
     from __main__ import display
 except ImportError:
     from ansible.utils.display import Display
     display = Display()
 
-
-hegemon_lib_home = os.getenv('HEGEMON_LIB_HOME', None)
-sys.path.append('{}/lib/python'.format(hegemon_lib_home))
-
 from hegemon import Runner
+
+
+hegemon_environment = os.getenv('HEGEMON_ENVIRONMENT', 'production')
+hegemon_playbook = os.path.join(hegemon_lib_home, 'lib/ansible/playbooks/site.yml')
+hegemon_home = os.getenv('HEGEMON_HOME', '/etc/hegemon/sites/default')
+config_dir = os.path.join(hegemon_home, 'config')
+hegemon_configuration = os.path.join(config_dir, 'hegemon.yml')
+environments_dir = os.path.join(config_dir, 'environments')
+environment_dir = os.path.join(environments_dir, hegemon_environment)
+site = os.path.join(environment_dir, 'site.yml')
+# hosts = os.path.join(environment_dir, 'hosts')
+hosts = environment_dir
+
+# os.getenv is equivalent, and can also give a default value instead of `None`
+# private_key_file = os.path.join(environment_dir, 'host_files/setup_hosts/.ssh/id_rsa')
+hegemon_run_home = os.path.join(environment_dir, 'host_files/setup_hosts')
+private_key_file = os.path.join(hegemon_run_home, '.ssh/id_rsa')
+known_hosts_file = os.path.join(hegemon_run_home, '.ssh/known_hosts')
+
+user = os.getenv('HEGEMON_USER', 'hegemon')
+group = os.getenv('HEGEMON_GROUP', 'hegemon')
+host_uid = os.getenv('HEGEMON_UID', '5000')
+host_gid = os.getenv('HEGEMON_GID', '5000')
+
+pythonpath = os.getenv('PYTHONPATH', '')
+
+host_files_dir = os.path.join(environment_dir, 'host_files')
+
+# # Allow this to be configurable?
+os.environ["PYTHONPATH"] = "{}:{}/lib/python".format(os.getenv('PYTHONPATH', ''), hegemon_lib_home)
+os.environ["ANSIBLE_CONFIG"] = "{}/lib/ansible/ansible.cfg".format(hegemon_lib_home)
+os.environ["HOME"] = hegemon_run_home
 
 # If you need to jump into a shell for debugging purposes!
 hegemon_shell = os.getenv('HEGEMON_SHELL', None)
 if hegemon_shell not in (None, 'false', 'no'):
     os.system("/bin/sh")
     exit()
-
-# os.getenv is equivalent, and can also give a default value instead of `None`
-hegemon_environment = os.getenv('HEGEMON_ENVIRONMENT', 'production')
-
-hegemon_playbook = os.path.join(hegemon_lib_home, 'lib/ansible/playbooks/site.yml')
-
-hegemon_home = os.getenv('HEGEMON_HOME', '/etc/hegemon/sites/default')
-config_dir = os.path.join(hegemon_home, 'config')
-hegemon_configuration = os.path.join(config_dir, 'hegemon.yml')
-environments_dir = os.path.join(config_dir, 'environments')
-
-environment_dir = os.path.join(environments_dir, hegemon_environment)
-
-site = os.path.join(environment_dir, 'site.yml')
-# hosts = os.path.join(environment_dir, 'hosts')
-hosts = environment_dir
-
-# private_key_file = os.path.join(environment_dir, 'host_files/setup_hosts/.ssh/id_rsa')
-
-hegemon_run_home = os.path.join(environment_dir, 'host_files/setup_hosts')
-private_key_file = os.path.join(hegemon_run_home, '.ssh/id_rsa')
-
-user = os.getenv('HEGEMON_USER', 'root')
-group = os.getenv('HEGEMON_GROUP', 'root')
-host_uid = os.getenv('HEGEMON_UID', '0')
-host_gid = os.getenv('HEGEMON_GID', '0')
-
-
-os.environ["PYTHONPATH"] = "{}:{}/lib/python".format(os.getenv('PYTHONPATH', ''), hegemon_lib_home)
-pythonpath = os.getenv('PYTHONPATH', '')
-
-host_files_dir = os.path.join(environment_dir, 'host_files')
-
-
-# Allow this to be configurable?
-os.environ["ANSIBLE_CONFIG"] = "{}/lib/ansible/ansible.cfg".format(hegemon_lib_home)
 
 # TODO: make variables called HEGEMON_INTERNAL_* and allow actual variables to be customizable maybe!
 
@@ -70,10 +65,8 @@ extra_vars = {
     "HEGEMON_PYTHONPATH": pythonpath
 }
 
-os.environ["HOME"] = hegemon_run_home
-
-
-
+ssh_common_args = '-o UserKnownHostsFile=\"{}\"'.format(known_hosts_file)
+ssh_extra_args = ""
 
 def main():
     runner = Runner(
@@ -81,12 +74,14 @@ def main():
         hosts=hosts,
         display=display,
         options={
+            'ssh_common_args': ssh_common_args,
+            'ssh_extra_args': ssh_extra_args,
             'verbosity': 5,
             # 'subset': '~^localhost',
             # 'become': True,
             # 'become_method': 'sudo',
-            # 'become_user': 'root',
-            'private_key_file': private_key_file,
+            # 'become_user': 'hegemon',
+            # 'private_key_file': private_key_file,
             # 'tags': 'debug',
             # 'skip_tags': 'debug',
             'extra_vars': extra_vars,
