@@ -43,10 +43,9 @@ RUN rm /etc/ansible/hosts
 # see lib/ansible/module_utils/README
 ADD ./lib/ansible-docker-machine/module_utils/docker_machine.py /opt/ansible/ansible/lib/ansible/module_utils/docker_machine.py
 
-#ENTRYPOINT ["hegemon"]
 
 RUN groupadd -r hegemon && useradd -r -m -g hegemon hegemon
 RUN usermod -aG docker hegemon
 
-#USER hegemon
 ENTRYPOINT ["/opt/hegemon/entrypoint.sh"]
+#ENTRYPOINT ["hegemon"]
