@@ -1,14 +1,6 @@
 # hegemon
 An opinionated infrastructure management and orchestration framework built on top of ansible and docker
 
-## Installation
-
-### Dependencies
-- docker
-- pip
-
-### Instructions
-    pip install -r ./requirements.txt
 
 ## What is this?
 
@@ -26,9 +18,14 @@ This project lets you manage an entire system of servers and services through on
 
 ## How do I use it?
 
-    cp -R .private.example .private
+### Dependencies
 
-.private will hold all the stuff you need to persist and keep secret. All the files in .private are configuration files. You might have folders like .ssh and .docker. You will also have an inventories folder.
+- docker
+- pip
+
+### Installation
+
+    pip install -r ./requirements.txt
 
 ### Inventories Folder
 
