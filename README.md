@@ -1,17 +1,14 @@
 # hegemon
-A complete infrastructure management and orchestration framework built on top of ansible and docker
+An opinionated infrastructure management and orchestration framework built on top of ansible and docker
 
 ## Installation
 
 ### Dependencies
-
 - docker
 - pip
 
 ### Instructions
-
     pip install -r ./requirements.txt
-
 
 ## What is this?
 
