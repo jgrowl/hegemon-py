@@ -1,6 +1,18 @@
 # hegemon
 A complete infrastructure management and orchestration framework built on top of ansible and docker
 
+## Installation
+
+### Dependencies
+
+- docker
+- pip
+
+### Instructions
+
+    pip install -r ./requirements.txt
+
+
 ## What is this?
 
 This project provides a complete website infrastructure. The goal is to have a generic skeleton for complete infrastructure management. It's all dependent on Docker containers.
