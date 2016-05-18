@@ -7,7 +7,7 @@ RUN apk --update --repository http://dl-3.alpinelinux.org/alpine/edge/community/
     apk add --allow-untrusted /tmp/glibc-2.21-r2.apk && \
     rm -rf /tmp/glibc-2.21-r2.apk /var/cache/apk/*
 
-RUN pip install docker-py
+RUN pip install docker-py docopt dockerpty
 
 # This is some temporary ugliness until --devices gets added to docker command in 2.1
 RUN cd /opt/ansible/ansible && git checkout devel && git pull && git checkout stable-2.1
@@ -24,11 +24,11 @@ RUN mkdir -p /usr/local/bin
 RUN curl -L https://github.com/docker/machine/releases/download/v0.6.0/docker-machine-`uname -s`-`uname -m` > /usr/local/bin/docker-machine && \
     chmod +x /usr/local/bin/docker-machine
 
-# Managed dependencies should be taken care of automatically!
+ENV PATH /usr/local/bin:$PATH
+
+# Need to specify where you installed HEGEMON_LIB_HOME and ANSIBLE
 ADD . /opt/hegemon
 ENV HEGEMON_LIB_HOME /opt/hegemon
-ENV ANSIBLE_CONFIG $HEGEMON_LIB_HOME/lib/ansible/ansible.cfg
-ENV PATH /usr/local/bin:$HEGEMON_LIB_HOME/lib/bin:$HEGEMON_LIB_HOME/bin:$PATH
 ENV ANSIBLE_LIBRARY /opt/hegemon/lib/ansible/library
 
 # Ensure default ansible paths exist
@@ -43,9 +43,6 @@ RUN rm /etc/ansible/hosts
 # see lib/ansible/module_utils/README
 ADD ./lib/ansible-docker-machine/module_utils/docker_machine.py /opt/ansible/ansible/lib/ansible/module_utils/docker_machine.py
 
-
 RUN groupadd -r hegemon && useradd -r -m -g hegemon hegemon
-RUN usermod -aG docker hegemon
 
 ENTRYPOINT ["/opt/hegemon/entrypoint.sh"]
-#ENTRYPOINT ["hegemon"]

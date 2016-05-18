@@ -2,13 +2,15 @@
 set -e
 
 if [ -z "$HEGEMON_UID" ]; then
-    print 'Using default uid'
+#    echo 'Using default uid'
+    echo ''
 else
     usermod -u $HEGEMON_UID hegemon
 fi
 
 if [ -z "$HEGEMON_GID" ]; then
-    print 'Using default gid'
+    echo ''
+#    echo 'Using default gid'
 else
     groupmod -g $HEGEMON_GID hegemon
 fi
@@ -20,4 +22,5 @@ sudo HEGEMON_SHELL=$HEGEMON_SHELL \
     ANSIBLE_CONFIG=$ANSIBLE_CONFIG \
     PATH=$PATH  \
     PYTHONPATH=$PYTHONPATH \
-    -u hegemon -s hegemon $@
+    -u hegemon -s /opt/hegemon/bin/hegemon $@
+
