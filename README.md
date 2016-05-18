@@ -46,5 +46,5 @@ Run `make sh`. This will drop you into a local container that acts as your basti
 For the included example, you can go to [Digital Ocean](http://digitalocean.com) and see your new droplets.
 
 ## Notes
-Using a docker container is currently the expected way to run hegemon. While it is theoretically possible to run directly on bare metal, there is some modification
-of paths and system files that might be destructive. This is not recommended.
+
+By default hegemon will start a new container, run, and then clean up after itself. The --no-container flag can be used to skip this step but there may be modifications or other destructive actions taken on your computer! This is not recommended at this time!
