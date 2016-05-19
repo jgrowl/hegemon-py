@@ -26,6 +26,20 @@ This project lets you manage an entire system of servers and services through on
 ### Installation
 
     pip install -r ./requirements.txt
+    
+### Running
+
+Clone repository
+
+    mkdir /opt/hegemon && (cd /opt/hegemon; git clone https://github.com/jgrowl/hegemon.git)
+
+Set `hegemon_lib_home` to wherever you install hegemon
+
+    export hegemon_lib_home=/opt/hegemon
+    
+Create new project
+
+    hegemon new <name>
 
 ### Inventories Folder
 
@@ -48,3 +62,10 @@ For the included example, you can go to [Digital Ocean](http://digitalocean.com)
 ## Notes
 
 By default hegemon will start a new container, run, and then clean up after itself. The --no-container flag can be used to skip this step but there may be modifications or other destructive actions taken on your computer! This is not recommended at this time!
+
+
+## Development
+
+### Build hegemon image
+
+    make
