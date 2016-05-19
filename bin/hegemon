@@ -4,6 +4,7 @@
   hegemon [--no-container] run
   hegemon [--no-container] new <name>
   hegemon [--no-container] server
+  hegemon [--no-container] console
   hegemon [--no-container] shell
 """
 
@@ -50,6 +51,8 @@ if __name__ == '__main__':
         # If you need to jump into a shell for debugging purposes!
         if arguments['shell']:
             os.system("(cd ~; /bin/sh)")
+        elif arguments['console']:
+            print 'TODO: start hegemon console'
         elif arguments['new']:
             print 'TODO: generate new project'
         elif arguments['run']:
