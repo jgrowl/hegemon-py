@@ -35,7 +35,8 @@ Clone repository
 
 Set `hegemon_lib_home` to wherever you install hegemon
 
-    export hegemon_lib_home=/opt/hegemon
+    export HEGEMON_LIB_HOME=/opt/hegemon/lib/hegemon-core/lib
+    alias hegemon=/opt/hegemon/lib/hegemon-core/exe/hegemon
     
 Create new project
 
