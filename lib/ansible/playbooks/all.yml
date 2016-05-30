@@ -1,5 +1,7 @@
 # Bring up new hosts
 - include: cloud/docker/create_docker_machines.yml
+  when: "{{ server_groups.0 is defined }}"
+
 
 # Ensure ansible can run on new hosts and
 - include: util/ansible_prereqs.yml
