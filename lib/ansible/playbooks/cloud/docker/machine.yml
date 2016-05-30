@@ -6,6 +6,8 @@
     state={{ machine.state }}
   when: machine.type == 'digitalocean'
 
+# TODO: Add in the rest of the docker_machines
+
 
 ## wait 300 seconds for port 22 to become open and contain "OpenSSH", don't assume the inventory_hostname is resolvable
 ## and don't start checking for 10 seconds
