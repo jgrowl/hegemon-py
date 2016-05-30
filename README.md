@@ -33,7 +33,7 @@ Clone repository
 
     mkdir /opt/hegemon && (cd /opt/hegemon; git clone https://github.com/jgrowl/hegemon.git)
 
-Set `hegemon_lib_home` to wherever you install hegemon
+Set `HEGEMON_LIB_HOME` to wherever you install hegemon
 
     export HEGEMON_LIB_HOME=/opt/hegemon/lib/hegemon-core/lib
     alias hegemon=/opt/hegemon/lib/hegemon-core/exe/hegemon
