@@ -1,0 +1,16 @@
+[targets]
+
+setup_hosts     ansible_connection=local
+
+#[ansible_prereqs]
+#
+#examplecom00    ansible_connection=smart
+#examplecom01    ansible_connection=smart
+#examplecom02    ansible_connection=smart
+#
+#[tinc]
+#
+#examplecom00    ansible_connection=smart
+#examplecom01    ansible_connection=smart
+#examplecom02    ansible_connection=smart
+

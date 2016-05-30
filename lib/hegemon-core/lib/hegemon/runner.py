@@ -3,10 +3,12 @@ import os
 import sys
 
 from ansible.executor import playbook_executor
-from ansible.inventory import Inventory
+# from ansible.inventory import Inventory
 from ansible.parsing.dataloader import DataLoader
 from ansible.vars import VariableManager
 from ansible.utils.display import Display
+
+from hegemon.ansible.inventory import HegemonInventory
 
 
 class Options(object):
@@ -67,7 +69,8 @@ class Runner(object):
         #     }
 
         # Set inventory, using most of above objects
-        self.inventory = Inventory(
+        # TODO: This is kinda mucking with internals of ansible that might change in the future!!!
+        self.inventory = HegemonInventory(
                 loader=self.loader, variable_manager=self.variable_manager,
                 host_list=hosts)
 

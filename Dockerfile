@@ -1,4 +1,5 @@
-FROM generik/ansible:v2.0
+FROM generik/ansible:v2.1.0.0-1
+#FROM generik/ansible:v2.0
 MAINTAINER Jonathan Rowlands <jonrowlands83@gmail.com>
 
 RUN apk --update --repository http://dl-3.alpinelinux.org/alpine/edge/community/ --allow-untrusted add curl ca-certificates docker python3 sudo && \
@@ -9,10 +10,10 @@ RUN apk --update --repository http://dl-3.alpinelinux.org/alpine/edge/community/
 
 RUN pip install docker-py docopt dockerpty
 
-# This is some temporary ugliness until --devices gets added to docker command in 2.1
-RUN cd /opt/ansible/ansible && git checkout devel && git pull && git checkout stable-2.1
-RUN cd /opt/ansible/ansible/lib/ansible/modules/core && git checkout devel && git pull && git checkout stable-2.1
-#RUN cd /opt/ansible/ansible/lib/ansible/modules/extra && git checkout stable-2.1
+## This is some temporary ugliness until --devices gets added to docker command in 2.1
+#RUN cd /opt/ansible/ansible && git checkout devel && git pull && git checkout stable-2.1
+#RUN cd /opt/ansible/ansible/lib/ansible/modules/core && git checkout devel && git pull && git checkout stable-2.1
+##RUN cd /opt/ansible/ansible/lib/ansible/modules/extra && git checkout stable-2.1
 
 ## Fix
 #RUN cd /opt/ansible/ansible/lib/ansible/modules/core && wget https://github.com/kaczynskid/ansible-modules-core/commit/46970d6d7add50780e8cedb5067ae5d29a763141.patch -O docker-fix.patch
@@ -28,8 +29,10 @@ ENV PATH /usr/local/bin:$PATH
 
 # Need to specify where you installed HEGEMON_LIB_HOME and ANSIBLE
 ADD . /opt/hegemon
+#ENV HEGEMON_LIB_HOME /opt/hegemon/lib/hegemon-core/lib/hegemon
 ENV HEGEMON_LIB_HOME /opt/hegemon
 ENV ANSIBLE_LIBRARY /opt/hegemon/lib/ansible/library
+ENV PYTHONPATH /opt/ansible/ansible/lib:/opt/hegemon/lib/python
 
 # Ensure default ansible paths exist
 #RUN mkdir -p /opt/ansible/ansible/library
@@ -45,4 +48,7 @@ ADD ./lib/ansible-docker-machine/module_utils/docker_machine.py /opt/ansible/ans
 
 RUN groupadd -r hegemon && useradd -r -m -g hegemon hegemon
 
+#VOLUME /etc/hegemon/sites
+RUN mkdir -p /etc/hegemon/sites
+ADD entrypoint.sh /opt/hegemon/entrypoint.sh
 ENTRYPOINT ["/opt/hegemon/entrypoint.sh"]

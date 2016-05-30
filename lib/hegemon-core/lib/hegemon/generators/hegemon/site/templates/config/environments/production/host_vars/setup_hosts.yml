@@ -1,0 +1,15 @@
+server_groups:
+#- type: digitalocean
+#  access_token: <DIGITAL_OCEAN_ACCESS_TOKEN>
+#  servers:
+#  - name: examplecom00
+#    region: nyc1
+#    state: running
+#
+#  - name: examplecom01
+#    region: nyc2
+#    state: running
+#
+#  - name: examplecom02
+#    region: nyc3
+#    state: running

@@ -4,13 +4,33 @@ from __future__ import (absolute_import, division, print_function)
 
 import os
 
-class HegemonConfig(object):
-    def __init__(self, hegemon_lib_home):
-        self.hegemon_lib_home = hegemon_lib_home
 
-        self.hegemon_playbook = os.path.join(self.hegemon_lib_home, 'lib/ansible/playbooks/site.yml')
+def hegemon_lib_home():
+    hegemon_lib = os.getenv('HEGEMON_LIB_HOME', None)
+    if hegemon_lib is None:
+        raise Exception("HEGEMON_LIB_HOME must be defined!")
+    return hegemon_lib
+
+
+def hegemon_home():
+    # hegemon_home = os.getenv('HEGEMON_HOME', '/etc/hegemon/sites/default')
+    import os
+    hegemon_home = os.getenv('HEGEMON_HOME', os.getcwd())
+    return hegemon_home
+
+    # hegemon_lib = os.getenv('HEGEMON_LIB_HOME', None)
+    # if hegemon_lib is None:
+    #     raise Exception("HEGEMON_LIB_HOME must be defined!")
+    # return hegemon_lib
+
+
+class HegemonConfig(object):
+    def __init__(self):
+        self.hegemon_lib_home = hegemon_lib_home()
+
         self.hegemon_environment = os.getenv('HEGEMON_ENVIRONMENT', 'production')
-        self.hegemon_home = os.getenv('HEGEMON_HOME', '/etc/hegemon/sites/default')
+        self.hegemon_home = hegemon_home()
+        self.hegemon_playbook = os.path.join(self.hegemon_lib_home, 'lib/ansible/playbooks/site.yml')
         self.hegemon_tmp = os.path.join(self.hegemon_home, 'tmp')
 
         self.config_dir = os.path.join(self.hegemon_home, 'config')
@@ -78,7 +98,7 @@ class Hegemon(object):
                 options={
                     'ssh_common_args': ssh_common_args,
                     'ssh_extra_args': ssh_extra_args,
-                    'verbosity': 5,
+                    'verbosity': 9,
                     # 'subset': '~^localhost',
                     # 'become': True,
                     # 'become_method': 'sudo',
