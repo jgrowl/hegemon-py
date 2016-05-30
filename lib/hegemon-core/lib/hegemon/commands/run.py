@@ -16,12 +16,6 @@ args = docopt(__doc__, version='0.1.1rc', options_first=True)
 from hegemon import Hegemon
 from hegemon import HegemonConfig
 
-
-# hegemon_lib_home = os.getenv('HEGEMON_LIB_HOME', None)
-# if hegemon_lib_home is None:
-#     raise Exception("HEGEMON_LIB_HOME must be defined!")
-
-# hegemon_config = HegemonConfig(hegemon_lib_home)
 hegemon_config = HegemonConfig()
 
 # It's important that all ANSIBLE_* configuration environment variables come before a Display is created
