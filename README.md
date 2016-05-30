@@ -62,7 +62,7 @@ For the included example, you can go to [Digital Ocean](http://digitalocean.com)
 
 ## Notes
 
-By default hegemon will start a new container, run, and then clean up after itself. The --no-container flag can be used to skip this step but there may be modifications or other destructive actions taken on your computer! This is not recommended at this time!
+By default hegemon will start a new container, run, and then clean up after itself. The --skip-container flag can be used to skip this step but there may be modifications or other destructive actions taken on your computer! This is not recommended at this time!
 
 
 ## Development
